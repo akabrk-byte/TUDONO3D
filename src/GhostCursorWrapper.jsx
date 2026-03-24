@@ -15,21 +15,15 @@ export default function GhostCursorWrapper(props) {
 
     let idleTimer = null;
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const idleDelay = isTouch ? 300 : 100;
+
+    const dispatchEnter = (clientX, clientY) => {
+      wrapper.dispatchEvent(new PointerEvent('pointerenter', { bubbles: false, cancelable: false }));
+      wrapper.dispatchEvent(new PointerEvent('pointermove', { clientX, clientY, bubbles: false, cancelable: false }));
+    };
 
     const dispatchMove = (clientX, clientY) => {
       clearTimeout(idleTimer);
-      wrapper.dispatchEvent(
-        new PointerEvent('pointermove', {
-          clientX,
-          clientY,
-          bubbles: false,
-          cancelable: false,
-        })
-      );
-      idleTimer = setTimeout(() => {
-        wrapper.dispatchEvent(new PointerEvent('pointerleave', { bubbles: false }));
-      }, idleDelay);
+      wrapper.dispatchEvent(new PointerEvent('pointermove', { clientX, clientY, bubbles: false, cancelable: false }));
     };
 
     const dispatchLeave = () => {
@@ -37,25 +31,45 @@ export default function GhostCursorWrapper(props) {
       wrapper.dispatchEvent(new PointerEvent('pointerleave', { bubbles: false }));
     };
 
-    const forwardPointerMove = (e) => dispatchMove(e.clientX, e.clientY);
-    const forwardTouchMove = (e) => {
+    // Desktop: mouse move
+    const onPointerMove = (e) => {
+      if (e.pointerType === 'touch') return; // handled by touch events below
+      clearTimeout(idleTimer);
+      dispatchMove(e.clientX, e.clientY);
+      idleTimer = setTimeout(dispatchLeave, 100);
+    };
+
+    // Mobile: only activate on touchstart → touchmove, fade on touchend
+    const onTouchStart = (e) => {
+      const t = e.touches[0];
+      if (t) dispatchEnter(t.clientX, t.clientY);
+    };
+
+    const onTouchMove = (e) => {
       const t = e.touches[0];
       if (t) dispatchMove(t.clientX, t.clientY);
     };
 
-    window.addEventListener('pointermove', forwardPointerMove, { passive: true });
-    window.addEventListener('touchmove', forwardTouchMove, { passive: true });
-    window.addEventListener('touchend', dispatchLeave, { passive: true });
-    window.addEventListener('touchcancel', dispatchLeave, { passive: true });
-    document.addEventListener('pointerleave', dispatchLeave, { passive: true });
+    const onTouchEnd = () => dispatchLeave();
+
+    if (isTouch) {
+      window.addEventListener('touchstart', onTouchStart, { passive: true });
+      window.addEventListener('touchmove', onTouchMove, { passive: true });
+      window.addEventListener('touchend', onTouchEnd, { passive: true });
+      window.addEventListener('touchcancel', onTouchEnd, { passive: true });
+    } else {
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      document.addEventListener('pointerleave', dispatchLeave, { passive: true });
+    }
 
     return () => {
-      window.removeEventListener('pointermove', forwardPointerMove);
-      window.removeEventListener('touchmove', forwardTouchMove);
-      window.removeEventListener('touchend', dispatchLeave);
-      window.removeEventListener('touchcancel', dispatchLeave);
-      document.removeEventListener('pointerleave', dispatchLeave);
       clearTimeout(idleTimer);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('touchcancel', onTouchEnd);
+      window.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerleave', dispatchLeave);
     };
   }, []);
 
