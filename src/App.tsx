@@ -59,10 +59,10 @@ export default function App() {
           { label: 'Contato', href: '#footer' },
         ]}
         activeHref={window.location.pathname}
-        baseColor="#000000"
-        pillColor="#ffffff"
+        baseColor="#ffffff"
+        pillColor="#FF4A00"
         hoveredPillTextColor="#ffffff"
-        pillTextColor="#000000"
+        pillTextColor="#ffffff"
         initialLoadAnimation
       />
       <main>

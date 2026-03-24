@@ -12,10 +12,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--base, #000);
+  /* fundo glass visível sobre o fundo escuro da página */
+  background: rgba(18, 18, 30, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   padding: 6px 10px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,74,0,0.08);
 }
 
 /* Logo */
@@ -23,12 +27,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  color: var(--base, #000);
   text-decoration: none;
 }
 .pill-logo img {
@@ -60,31 +63,32 @@
   border-radius: 999px;
   overflow: hidden;
   text-decoration: none;
-  color: var(--base, #fff);
+  /* texto branco visível */
+  color: #ffffff;
   font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   white-space: nowrap;
-  transition: color 0.2s;
   height: 36px;
+  transition: color 0.2s;
 }
 
 .pill.is-active {
-  background: var(--pill-bg, #fff);
-  color: var(--pill-text, #000);
+  background: var(--pill-bg, #FF4A00);
+  color: var(--pill-text, #ffffff);
 }
 
-/* Hover circle */
+/* Hover circle (fill animado pelo GSAP) */
 .hover-circle {
   position: absolute;
   left: 50%;
   border-radius: 50%;
-  background: var(--pill-bg, #fff);
+  background: var(--pill-bg, #FF4A00);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Label stack for slide animation */
+/* Label stack para animação de slide */
 .label-stack {
   position: relative;
   display: flex;
@@ -100,12 +104,12 @@
   line-height: 1.2;
 }
 .pill-label-hover {
-  color: var(--hover-text, #000);
+  color: var(--hover-text, #ffffff);
   position: absolute;
 }
 
 /* Mobile hamburger */
-.mobile-only { display: none; }
+.mobile-only  { display: none; }
 .desktop-only { display: flex; }
 
 .mobile-menu-button {
@@ -121,7 +125,7 @@
   display: block;
   width: 22px;
   height: 2px;
-  background: var(--base, #fff);
+  background: #ffffff;
   border-radius: 2px;
   transform-origin: center;
 }
@@ -132,11 +136,14 @@
   top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: var(--base, #000);
+  background: rgba(18, 18, 30, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
   padding: 8px;
   min-width: 160px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 .mobile-menu-list {
   list-style: none;
@@ -151,19 +158,19 @@
   padding: 10px 16px;
   border-radius: 10px;
   text-decoration: none;
-  color: var(--base, #fff);
+  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 500;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 .mobile-menu-link:hover,
 .mobile-menu-link.is-active {
-  background: var(--pill-bg, #fff);
-  color: var(--pill-text, #000);
+  background: #FF4A00;
+  color: #ffffff;
 }
 
 @media (max-width: 640px) {
-  .mobile-only { display: flex; }
+  .mobile-only  { display: flex; }
   .desktop-only { display: none; }
 
   .pill-nav-container {
