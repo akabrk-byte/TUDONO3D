@@ -258,7 +258,7 @@ header.shrunk {
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid rgba(255,74,0,0.12);
     border-bottom: 1px solid rgba(255,74,0,0.12);
-    color: var(--bg-white);
+    color: #FFFFFF;
     padding: 16px 0;
     overflow: hidden;
     display: flex;
@@ -309,14 +309,14 @@ header.shrunk {
 }
 .filter-pill {
     padding: 8px 20px;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255,255,255,0.18);
     border-radius: 100px;
     font-size: 0.85rem;
-    color: var(--text-sec);
+    color: var(--text-main);
     transition: all 0.3s;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    background: rgba(16,16,30,0.30);
+    background: rgba(255,255,255,0.07);
 }
 .filter-pill.active, .filter-pill:hover {
     background-color: var(--accent);
@@ -335,10 +335,10 @@ header.shrunk {
     perspective: 1000px;
 }
 .product-card {
-    background: rgba(16, 16, 32, 0.45) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.14);
     padding: 16px;
     border-radius: 8px;
     transition: transform 0.1s ease-out, all 0.3s ease;
@@ -348,8 +348,8 @@ header.shrunk {
     height: 100%;
 }
 .card-wrapper:hover .product-card {
-    border-color: rgba(255, 74, 0, 0.18);
-    box-shadow: 0 8px 40px rgba(255, 74, 0, 0.08);
+    border-color: rgba(255, 74, 0, 0.50);
+    box-shadow: 0 8px 40px rgba(255, 74, 0, 0.15);
 }
 .product-gallery-container {
     position: relative;
@@ -409,7 +409,7 @@ header.shrunk {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(255,255,255,0.35);
     transition: background-color 0.3s;
 }
 .gallery-dots .dot.active { background-color: var(--accent); }
@@ -435,10 +435,10 @@ header.shrunk {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(20, 20, 40, 0.60);
+    background-color: rgba(255, 255, 255, 0.10);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.25);
     color: #FFFFFF;
     display: flex;
     align-items: center;
@@ -464,7 +464,7 @@ header.shrunk {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.35);
     cursor: pointer;
     pointer-events: auto;
     transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
@@ -548,7 +548,7 @@ header.shrunk {
 .step-number {
     font-family: var(--font-title);
     font-size: 6rem;
-    color: rgba(255, 74, 0, 0.12);
+    color: rgba(255, 74, 0, 0.40);
     line-height: 1;
     margin-bottom: 16px;
     transition: color 0.3s;
@@ -650,7 +650,7 @@ header.shrunk {
     font-size: 0.75rem;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: rgba(232, 232, 242, 0.2);
+    color: rgba(232, 232, 242, 0.5);
 }
 .impact-tagline::before,
 .impact-tagline::after {
@@ -727,11 +727,11 @@ footer {
 .newsletter-form input {
     width: 100%;
     padding: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
     border-radius: 4px;
     font-family: var(--font-body);
     outline: none;
-    background-color: rgba(20, 20, 40, 0.60);
+    background-color: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: var(--text-main);
@@ -820,7 +820,7 @@ footer {
 .cart-footer {
     padding: 24px;
     border-top: 1px solid var(--border);
-    background-color: #0A0A18;
+    background-color: var(--bg-off);
 }
 .cart-total {
     display: flex;
