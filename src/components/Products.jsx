@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { products } from '../data/products';
 
-const CATEGORIES = ['Todos', 'Capas', 'Suportes', 'Decoração', 'Personalizado'];
+const CATEGORIES = ['Todos', 'Capas de Isqueiro', 'Suportes', 'Decoração', 'Personalizado'];
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -9,16 +9,29 @@ function formatPrice(value) {
 
 function ProductCard({ product, onAddToCart }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [displayImages, setDisplayImages] = useState(product.images);
   const wrapperRef = useRef(null);
   const cardRef = useRef(null);
-  const hasMultiple = product.images.length > 1;
+
+  function selectColor(colorName) {
+    if (selectedColor === colorName) {
+      setSelectedColor(null);
+      setDisplayImages(product.images);
+    } else {
+      const colorObj = product.colors?.find(c => c.name === colorName);
+      setSelectedColor(colorName);
+      setDisplayImages(colorObj?.images || product.images);
+    }
+    setImageIndex(0);
+  }
 
   const changeImage = (dir, e) => {
     e.stopPropagation();
     setImageIndex(prev => {
       let next = prev + dir;
-      if (next < 0) next = product.images.length - 1;
-      if (next >= product.images.length) next = 0;
+      if (next < 0) next = displayImages.length - 1;
+      if (next >= displayImages.length) next = 0;
       return next;
     });
   };
@@ -49,32 +62,52 @@ function ProductCard({ product, onAddToCart }) {
       <div ref={cardRef} className="product-card">
         <div className="product-gallery-container">
           <img
-            src={product.images[imageIndex]}
+            key={displayImages[imageIndex]}
+            src={displayImages[imageIndex]}
             alt={product.name}
             className="product-img"
           />
-          {hasMultiple && (
+          {displayImages.length > 1 && (
             <>
               <div className="gallery-nav">
                 <button onClick={(e) => changeImage(-1, e)} aria-label="Imagem anterior">&#10094;</button>
                 <button onClick={(e) => changeImage(1, e)} aria-label="Próxima imagem">&#10095;</button>
               </div>
               <div className="gallery-dots">
-                {product.images.map((_, i) => (
+                {displayImages.map((_, i) => (
                   <div key={i} className={`dot${i === imageIndex ? ' active' : ''}`} />
                 ))}
               </div>
             </>
           )}
         </div>
+
+        {product.colors && (
+          <div className="color-swatches">
+            {product.colors.map(color => (
+              <button
+                type="button"
+                key={color.name}
+                className={`color-swatch${selectedColor === color.name ? ' selected' : ''}`}
+                style={{ backgroundColor: color.hex, pointerEvents: 'auto' }}
+                title={color.name}
+                onClick={() => selectColor(color.name)}
+                aria-label={`Cor ${color.name}`}
+              />
+            ))}
+          </div>
+        )}
+
         <div className="product-info">
           <div className="product-details">
             <h3>{product.name}</h3>
+            {selectedColor && <span className="selected-color-label">{selectedColor}</span>}
             <p>{formatPrice(product.price)}</p>
           </div>
           <button
+            type="button"
             className="add-btn"
-            onClick={() => onAddToCart(product)}
+            onClick={() => onAddToCart({ ...product, selectedColor, images: displayImages })}
             aria-label={`Adicionar ${product.name}`}
           >
             +
@@ -93,7 +126,6 @@ export default function Products({ onAddToCart }) {
     ? products
     : products.filter(p => p.category === activeCategory);
 
-  // Re-run observer whenever the displayed products change so new cards animate in
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;

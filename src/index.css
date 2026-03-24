@@ -333,7 +333,6 @@ header.shrunk {
 
 .card-wrapper {
     perspective: 1000px;
-    transform-style: preserve-3d;
 }
 .product-card {
     background: rgba(16, 16, 32, 0.45) !important;
@@ -452,6 +451,41 @@ header.shrunk {
     border-color: var(--accent);
     box-shadow: 0 4px 16px rgba(255,74,0,0.30);
     transform: scale(1.1);
+}
+
+/* ── COLOR SWATCHES ── */
+.color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 16px 2px;
+}
+.color-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.12);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    flex-shrink: 0;
+}
+.color-swatch:hover {
+    transform: scale(1.2);
+    border-color: rgba(255,255,255,0.4);
+}
+.color-swatch.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(255, 74, 0, 0.45);
+    transform: scale(1.15);
+}
+.selected-color-label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 2px;
 }
 
 /* ── EDITORIAL ── */
