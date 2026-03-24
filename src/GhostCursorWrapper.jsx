@@ -14,35 +14,47 @@ export default function GhostCursorWrapper(props) {
     if (!wrapper) return;
 
     let idleTimer = null;
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const idleDelay = isTouch ? 300 : 100;
 
-    const forwardMove = (e) => {
+    const dispatchMove = (clientX, clientY) => {
       clearTimeout(idleTimer);
       wrapper.dispatchEvent(
         new PointerEvent('pointermove', {
-          clientX: e.clientX,
-          clientY: e.clientY,
+          clientX,
+          clientY,
           bubbles: false,
           cancelable: false,
         })
       );
-      // Dispatch synthetic pointerleave 100ms after last move so the
-      // fade-out timer inside GhostCursor can start counting.
       idleTimer = setTimeout(() => {
         wrapper.dispatchEvent(new PointerEvent('pointerleave', { bubbles: false }));
-      }, 100);
+      }, idleDelay);
     };
 
-    const forwardLeave = () => {
+    const dispatchLeave = () => {
       clearTimeout(idleTimer);
       wrapper.dispatchEvent(new PointerEvent('pointerleave', { bubbles: false }));
     };
 
-    window.addEventListener('pointermove', forwardMove, { passive: true });
-    document.addEventListener('pointerleave', forwardLeave, { passive: true });
+    const forwardPointerMove = (e) => dispatchMove(e.clientX, e.clientY);
+    const forwardTouchMove = (e) => {
+      const t = e.touches[0];
+      if (t) dispatchMove(t.clientX, t.clientY);
+    };
+
+    window.addEventListener('pointermove', forwardPointerMove, { passive: true });
+    window.addEventListener('touchmove', forwardTouchMove, { passive: true });
+    window.addEventListener('touchend', dispatchLeave, { passive: true });
+    window.addEventListener('touchcancel', dispatchLeave, { passive: true });
+    document.addEventListener('pointerleave', dispatchLeave, { passive: true });
 
     return () => {
-      window.removeEventListener('pointermove', forwardMove);
-      document.removeEventListener('pointerleave', forwardLeave);
+      window.removeEventListener('pointermove', forwardPointerMove);
+      window.removeEventListener('touchmove', forwardTouchMove);
+      window.removeEventListener('touchend', dispatchLeave);
+      window.removeEventListener('touchcancel', dispatchLeave);
+      document.removeEventListener('pointerleave', dispatchLeave);
       clearTimeout(idleTimer);
     };
   }, []);
