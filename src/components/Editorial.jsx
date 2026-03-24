@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Cubes from './Cubes';
 
 export default function Editorial() {
   const sectionRef = useRef(null);
@@ -26,11 +27,13 @@ export default function Editorial() {
     <section id="editorial" className="editorial" ref={sectionRef}>
       <div className="container">
         <div className="editorial-grid">
-          <div className="reveal">
-            <img
-              src="https://placehold.co/800x1000/F0EDE8/111111?text=VASO+GEOMETRICO"
-              alt="Vaso Geométrico"
-              className="editorial-img"
+          <div className="reveal editorial-cubes-frame">
+            <Cubes
+              borderStyle="2px dotted #fff"
+              gridSize={6}
+              maxAngle={75}
+              faceColor="#0a0a18"
+              radius={3}
             />
           </div>
           <div className="editorial-text reveal">
