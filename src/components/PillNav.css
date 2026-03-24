@@ -6,13 +6,13 @@
   transform: translateX(-50%);
   z-index: 1000;
   width: max-content;
+  max-width: calc(100vw - 32px);
 }
 
 .pill-nav {
   display: flex;
   align-items: center;
   gap: 8px;
-  /* fundo glass visível sobre o fundo escuro da página */
   background: rgba(18, 18, 30, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -40,7 +40,7 @@
   object-fit: contain;
 }
 
-/* Nav items */
+/* Nav items — sempre visível (sem hamburguer) */
 .pill-nav-items {
   display: flex;
 }
@@ -59,15 +59,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
+  padding: 6px 14px;
   border-radius: 999px;
   overflow: hidden;
   text-decoration: none;
-  /* texto branco visível */
   color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
   height: 36px;
   transition: color 0.2s;
@@ -78,7 +78,7 @@
   color: var(--pill-text, #ffffff);
 }
 
-/* Hover circle (fill animado pelo GSAP) */
+/* Hover circle (animado pelo GSAP) */
 .hover-circle {
   position: absolute;
   left: 50%;
@@ -88,7 +88,7 @@
   z-index: 0;
 }
 
-/* Label stack para animação de slide */
+/* Label stack */
 .label-stack {
   position: relative;
   display: flex;
@@ -102,83 +102,23 @@
 .pill-label-hover {
   display: block;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 .pill-label-hover {
   color: var(--hover-text, #ffffff);
   position: absolute;
 }
 
-/* Mobile hamburger */
-.mobile-only  { display: none; }
+/* Ocultar hamburguer e popover mobile — nunca usados */
+.mobile-only  { display: none !important; }
 .desktop-only { display: flex; }
 
-.mobile-menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 6px;
-}
-.hamburger-line {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: #ffffff;
-  border-radius: 2px;
-  transform-origin: center;
-}
-
-/* Mobile popover */
-.mobile-menu-popover {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(18, 18, 30, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 8px;
-  min-width: 160px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-.mobile-menu-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.mobile-menu-link {
-  display: block;
-  padding: 10px 16px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: background 0.2s, color 0.2s;
-}
-.mobile-menu-link:hover,
-.mobile-menu-link.is-active {
-  background: #FF4A00;
-  color: #ffffff;
-}
-
-@media (max-width: 640px) {
-  .mobile-only  { display: flex; }
-  .desktop-only { display: none; }
-
+@media (max-width: 480px) {
   .pill-nav-container {
     top: 12px;
-    width: calc(100vw - 32px);
   }
-  .pill-nav {
-    width: 100%;
-    justify-content: space-between;
+  .pill {
+    padding: 6px 10px;
+    font-size: 0.72rem;
   }
 }
