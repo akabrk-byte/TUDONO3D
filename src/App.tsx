@@ -11,6 +11,9 @@ import Footer from './components/Footer';
 import Cart from './components/Cart';
 import GhostCursorWrapper from './GhostCursorWrapper';
 
+const isTouchDevice = typeof window !== 'undefined' &&
+  ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -37,19 +40,21 @@ export default function App() {
   return (
     <>
       <BgCanvas />
-      <GhostCursorWrapper
-        color="#FF4A00"
-        brightness={1.2}
-        edgeIntensity={0.3}
-        trailLength={40}
-        inertia={0.6}
-        grainIntensity={0.04}
-        bloomStrength={0.15}
-        bloomRadius={0.8}
-        bloomThreshold={0.02}
-        fadeDelayMs={800}
-        fadeDurationMs={1200}
-      />
+      {!isTouchDevice && (
+        <GhostCursorWrapper
+          color="#FF4A00"
+          brightness={1.2}
+          edgeIntensity={0.3}
+          trailLength={40}
+          inertia={0.6}
+          grainIntensity={0.04}
+          bloomStrength={0.15}
+          bloomRadius={0.8}
+          bloomThreshold={0.02}
+          fadeDelayMs={800}
+          fadeDurationMs={1200}
+        />
+      )}
       <PillNav
         logo="/logo.svg"
         logoAlt="Tudo no 3D"

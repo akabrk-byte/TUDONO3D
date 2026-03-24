@@ -1,6 +1,17 @@
 import { useEffect, useRef } from 'react';
 
-const CONFIG = {
+const isMobile = typeof window !== 'undefined' &&
+  ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+const CONFIG = isMobile ? {
+  blobs:       2,
+  orbs:        5,
+  particles:   16,
+  gridSize:    55,
+  gridOpacity: 0.03,
+  mouseInfl:   0,
+  connectDist: 60,
+} : {
   blobs:       4,
   orbs:        14,
   particles:   48,
