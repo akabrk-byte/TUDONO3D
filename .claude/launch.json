@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Dev Server",
+      "runtimeExecutable": "C:\\Windows\\System32\\cmd.exe",
+      "runtimeArgs": ["/c", "G:\\Users\\alecs\\Downloads\\tudono3d\\.claude\\start-dev.cmd"],
+      "port": 3000
+    },
+    {
+      "name": "Preview Server",
+      "runtimeExecutable": "C:\\Windows\\System32\\cmd.exe",
+      "runtimeArgs": ["/c", "G:\\Users\\alecs\\Downloads\\tudono3d\\.claude\\start-preview.cmd"],
+      "port": 4173
+    }
+  ]
+}
