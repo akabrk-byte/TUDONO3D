@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BgCanvas from './components/BgCanvas';
-import Header from './components/Header';
+import PillNav from './components/PillNav';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import Products from './components/Products';
@@ -50,7 +50,21 @@ export default function App() {
         fadeDelayMs={800}
         fadeDurationMs={1200}
       />
-      <Header cartCount={cartItems.length} onCartToggle={() => setCartOpen(o => !o)} />
+      <PillNav
+        logo="/logo.svg"
+        logoAlt="Tudo no 3D"
+        items={[
+          { label: 'Produtos', href: '#produtos' },
+          { label: 'Sobre', href: '#editorial' },
+          { label: 'Contato', href: '#footer' },
+        ]}
+        activeHref={window.location.pathname}
+        baseColor="#000000"
+        pillColor="#ffffff"
+        hoveredPillTextColor="#ffffff"
+        pillTextColor="#000000"
+        initialLoadAnimation
+      />
       <main>
         <Hero />
         <Marquee />
