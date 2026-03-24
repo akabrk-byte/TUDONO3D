@@ -1,13 +1,13 @@
 /* ── VARIÁVEIS E RESET ── */
 :root {
-    --bg-white: #07070F;
-    --bg-off:   #0A0A16;
-    --surface:  #10101E;
+    --bg-white: #12121E;
+    --bg-off:   #1A1A2E;
+    --surface:  #1E1E32;
     --text-main: #E8E8F2;
     --text-sec:  #9090A8;
     --accent:    #FF4A00;
     --accent-hover: #E04000;
-    --border:   #1A1A28;
+    --border:   #2A2A40;
 
     --font-title: 'Bebas Neue', sans-serif;
     --font-body: 'DM Sans', sans-serif;
@@ -22,7 +22,7 @@
     box-sizing: border-box;
 }
 
-html { background-color: #000000; }
+html { background-color: #0E0E1A; }
 
 body {
     font-family: var(--font-body);
