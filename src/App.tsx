@@ -10,6 +10,7 @@ import Impact from './components/Impact';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 import GhostCursorWrapper from './GhostCursorWrapper';
+import TargetCursor from './components/TargetCursor';
 
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -37,6 +38,14 @@ export default function App() {
   return (
     <>
       <BgCanvas />
+      <TargetCursor
+        targetSelector=".cursor-target"
+        containerSelector=".marquee-wrapper"
+        rotationDuration={2}
+        hoverDuration={0.2}
+        hideDefaultCursor={true}
+        parallaxEnabled={true}
+      />
       <GhostCursorWrapper
         color="#FF4A00"
         brightness={1.2}

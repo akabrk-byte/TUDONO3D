@@ -1,10 +1,18 @@
 export default function Marquee() {
-  const text = 'IMPRESSÃO 3D · FEITO SOB DEMANDA · PERSONALIZADO · ALTA PRECISÃO · IMPRESSÃO 3D · FEITO SOB DEMANDA · PERSONALIZADO · ALTA PRECISÃO · ';
+  const buildContent = (prefix) => {
+    const items = [];
+    for (let i = 0; i < 9; i++) {
+      items.push(<span key={`${prefix}-${i}`} className="cursor-target">TUDO NO 3D</span>);
+      items.push(' · ');
+    }
+    return items;
+  };
+
   return (
     <div className="marquee-wrapper">
       <div className="marquee">
-        <span>{text}</span>
-        <span>{text}</span>
+        <span>{buildContent('a')}</span>
+        <span>{buildContent('b')}</span>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import Magnet from './Magnet';
 
 const isMobile =
   typeof window !== 'undefined' &&
@@ -93,7 +94,9 @@ export default function Hero() {
         <p ref={pRef}>
           Design editorial e precisão técnica. Peças únicas criadas sob demanda para o seu espaço.
         </p>
-        <a href="#produtos" className="cta-btn" ref={ctaRef}>Explorar Coleção</a>
+        <Magnet padding={300} magnetStrength={7}>
+          <a href="#produtos" className="cta-btn" ref={ctaRef}>Explorar Coleção</a>
+        </Magnet>
       </div>
     </section>
   );

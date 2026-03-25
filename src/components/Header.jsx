@@ -1,3 +1,4 @@
+// Header antigo, substituído pelo PillNav em App.tsx
 import { useState, useEffect, useRef } from 'react';
 
 export default function Header({ cartCount, onCartToggle }) {
