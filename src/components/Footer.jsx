@@ -29,12 +29,20 @@ export default function Footer() {
 
   return (
     <footer id="footer" ref={sectionRef}>
+
+      {/* ── Brand hero ── */}
+      <div className="footer-brand reveal">
+        <p className="footer-eyebrow">Studio de impressão 3D · Rio de Janeiro</p>
+        <h2 className="footer-brand-name">
+          TUDO NO <span>3D</span>
+        </h2>
+        <p className="footer-brand-tagline">Design editorial. Precisão técnica.</p>
+      </div>
+
+      {/* ── Colunas ── */}
       <div className="container">
         <div className="footer-grid reveal">
-          <div className="footer-col">
-            <div className="footer-badge">TUDO NO 3D</div>
-            <p>Estúdio de impressão 3D focado em design, precisão e peças sob demanda para transformar seu espaço.</p>
-          </div>
+
           <div className="footer-col">
             <h4>Navegação</h4>
             <a href="#produtos">Catálogo de Produtos</a>
@@ -42,13 +50,15 @@ export default function Footer() {
             <a href="#">Como Funciona</a>
             <a href="#">Dúvidas Frequentes</a>
           </div>
+
           <div className="footer-col">
             <h4>Contato</h4>
-            <a href="#">WhatsApp: (11) 99999-9999</a>
+            <a href="#">WhatsApp: (21) 99999-9999</a>
             <a href="#">Instagram: @tudono3d</a>
             <a href="#">contato@tudono3d.com.br</a>
-            <p>São Paulo, SP - Brasil</p>
+            <p>Rio de Janeiro, RJ — Brasil</p>
           </div>
+
           <div className="footer-col">
             <h4>Newsletter</h4>
             <p>Receba novidades, lançamentos exclusivos e ofertas especiais.</p>
@@ -63,12 +73,15 @@ export default function Footer() {
               <button type="submit">OK</button>
             </form>
           </div>
+
         </div>
+
         <div className="footer-bottom reveal">
-          <p>© 2026 TUDO NO 3D. Todos os direitos reservados.</p>
-          <p>Design Editorial &amp; Alta Conversão</p>
+          <p>© 2026. Todos os direitos reservados.</p>
+          <p>Design for alec'akabrk</p>
         </div>
       </div>
+
     </footer>
   );
 }

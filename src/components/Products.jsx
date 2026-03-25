@@ -82,21 +82,19 @@ function ProductCard({ product, onAddToCart }) {
           )}
         </div>
 
-        {product.colors && (
-          <div className="color-swatches">
-            {product.colors.map(color => (
-              <button
-                type="button"
-                key={color.name}
-                className={`color-swatch${selectedColor === color.name ? ' selected' : ''}`}
-                style={{ backgroundColor: color.hex, pointerEvents: 'auto' }}
-                title={color.name}
-                onClick={() => selectColor(color.name)}
-                aria-label={`Cor ${color.name}`}
-              />
-            ))}
-          </div>
-        )}
+        <div className="color-swatches">
+          {product.colors?.map(color => (
+            <button
+              type="button"
+              key={color.name}
+              className={`color-swatch${selectedColor === color.name ? ' selected' : ''}`}
+              style={{ backgroundColor: color.hex, pointerEvents: 'auto' }}
+              title={color.name}
+              onClick={() => selectColor(color.name)}
+              aria-label={`Cor ${color.name}`}
+            />
+          ))}
+        </div>
 
         <div className="product-info">
           <div className="product-details">
@@ -170,7 +168,7 @@ export default function Products({ onAddToCart }) {
 
         <div className="grid">
           {filtered.map((product, index) => (
-            <div key={product.id} style={{ transitionDelay: `${(index % 4) * 100}ms` }}>
+            <div key={product.id} style={{ transitionDelay: `${(index % 4) * 100}ms`, height: '100%' }}>
               <ProductCard product={product} onAddToCart={onAddToCart} />
             </div>
           ))}

@@ -37,16 +37,11 @@ export default function Editorial() {
             />
           </div>
           <div className="editorial-text reveal">
-            <span className="highlight">Design em Foco</span>
+            <span className="highlight">DESIIGN EM 3D</span>
             <h2>A BELEZA DA<br />GEOMETRIA</h2>
             <div className="divider-line" style={{ margin: '32px 0' }} />
             <p>
-              Cada camada depositada conta uma história de precisão. Nossos vasos geométricos
-              não são apenas recipientes, são esculturas matemáticas que transformam a luz do ambiente.
-            </p>
-            <p>
-              Produzidos em PLA biodegradável, unimos a estética brutalista com a responsabilidade
-              ambiental. O resultado é uma peça de peso visual e leveza material.
+              A tecnologia de alta precisão da impressão 3D revela vértices nítidos, superfícies contínuas e curvas perfeitas, trazendo para o mundo físico aquilo que nasceu no traço digital. O resultado são peças geométricas de presença forte, acabamento impecável e uma estética contemporânea que transforma qualquer ambiente.
             </p>
           </div>
         </div>

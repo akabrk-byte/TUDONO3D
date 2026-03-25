@@ -1,16 +1,16 @@
-/* ── PILL NAV ── */
+/* ── PILL NAV — vertical, canto superior esquerdo ── */
 .pill-nav-container {
   position: fixed;
   top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 20px;
+  transform: none;
   z-index: 1000;
   width: max-content;
-  max-width: calc(100vw - 32px);
 }
 
 .pill-nav {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
   background: rgba(18, 18, 30, 0.85);
@@ -22,7 +22,7 @@
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,74,0,0.08);
 }
 
-/* Logo */
+/* Logo — botão toggle */
 .pill-logo {
   display: flex;
   align-items: center;
@@ -33,6 +33,7 @@
   overflow: hidden;
   flex-shrink: 0;
   text-decoration: none;
+  align-self: center;
 }
 .pill-logo img {
   width: 100%;
@@ -40,10 +41,12 @@
   object-fit: contain;
 }
 
-/* Nav items — sempre visível (sem hamburguer) */
+/* Nav items — largura gerenciada pelo GSAP */
 .pill-nav-items {
   display: flex;
+  overflow: hidden;
 }
+
 .pill-list {
   display: flex;
   align-items: center;
@@ -109,16 +112,28 @@
   position: absolute;
 }
 
-/* Ocultar hamburguer e popover mobile — nunca usados */
+/* Desktop: hamburguer oculto, nav visível */
 .mobile-only  { display: none !important; }
 .desktop-only { display: flex; }
 
-@media (max-width: 480px) {
+/* ── MOBILE ── */
+@media (max-width: 768px) {
   .pill-nav-container {
-    top: 12px;
+    top: 16px;
+    left: 16px;
   }
-  .pill {
-    padding: 6px 10px;
-    font-size: 0.72rem;
+
+  .pill-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pill-nav-items {
+    flex: 1;
+  }
+
+  .pill-list {
+    width: 100%;
+    justify-content: space-evenly;
   }
 }

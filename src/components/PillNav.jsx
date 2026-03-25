@@ -18,6 +18,9 @@ const PillNav = ({
 }) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const isNavOpenRef = useRef(false);
+  const containerRef = useRef(null);
   const circleRefs = useRef([]);
   const tlRefs = useRef([]);
   const activeTweenRefs = useRef([]);
@@ -105,13 +108,12 @@ const PillNav = ({
         });
       }
 
+      // Menu começa fechado
       if (navItems) {
-        gsap.set(navItems, { width: 0, overflow: 'hidden' });
-        gsap.to(navItems, {
-          width: 'auto',
-          duration: 0.6,
-          ease
-        });
+        gsap.set(navItems, { width: 0, opacity: 0, overflow: 'hidden' });
+        if (window.innerWidth <= 768) {
+          gsap.set(containerRef.current, { width: 'auto' });
+        }
       }
     }
 
@@ -151,6 +153,35 @@ const PillNav = ({
       ease,
       overwrite: 'auto'
     });
+  };
+
+  const toggleNav = (e) => {
+    e.preventDefault();
+    const navItems = navItemsRef.current;
+    if (!navItems) return;
+
+    const opening = !isNavOpenRef.current;
+    isNavOpenRef.current = opening;
+    setIsNavOpen(opening);
+
+    const isMobile = window.innerWidth <= 768;
+
+    if (opening) {
+      if (isMobile) {
+        const fullWidth = window.innerWidth - 32;
+        gsap.to(containerRef.current, { width: fullWidth, duration: 0.4, ease: 'power3.out' });
+        gsap.to(navItems, { opacity: 1, duration: 0.3, delay: 0.15, ease: 'power3.out' });
+      } else {
+        gsap.to(navItems, { width: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' });
+      }
+    } else {
+      if (isMobile) {
+        gsap.to(navItems, { opacity: 0, duration: 0.15, ease: 'power3.in' });
+        gsap.to(containerRef.current, { width: 'auto', duration: 0.3, delay: 0.1, ease: 'power3.in' });
+      } else {
+        gsap.to(navItems, { width: 0, opacity: 0, duration: 0.25, ease: 'power3.in' });
+      }
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -212,12 +243,13 @@ const PillNav = ({
   };
 
   return (
-    <div className="pill-nav-container">
+    <div className="pill-nav-container" ref={containerRef}>
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
         <a
-          className="pill-logo"
+          className={`pill-logo${isNavOpen ? ' is-open' : ''}`}
           href="#"
-          aria-label="Home"
+          aria-label="Toggle menu"
+          onClick={toggleNav}
           onMouseEnter={handleLogoEnter}
           ref={el => { logoRef.current = el; }}
         >
