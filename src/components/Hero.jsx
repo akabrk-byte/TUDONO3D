@@ -95,7 +95,7 @@ export default function Hero() {
         <p ref={pRef}>
           Sua ideia ganha forma com nossas impressões, feitas com precisão, tecnologia e atenção total<br></br>a cada projeto.
         </p>
-        <Magnet padding={300} magnetStrength={7}>
+        <Magnet padding={300} magnetStrength={7} disabled={isMobile}>
           <RainbowButton href="#produtos" ref={ctaRef}>VEJA MAIS</RainbowButton>
         </Magnet>
       </div>
