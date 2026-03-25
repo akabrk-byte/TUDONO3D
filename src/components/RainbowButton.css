@@ -1,0 +1,92 @@
+/* ── RAINBOW BUTTON (Magic UI — implementação fiel) ── */
+
+:root {
+  --color-1: oklch(62% 0.24 35);    /* laranja escuro  */
+  --color-2: oklch(72% 0.22 50);    /* laranja médio   */
+  --color-3: oklch(80% 0.18 65);    /* âmbar           */
+  --color-4: oklch(55% 0.22 25);    /* vermelho-laranja */
+  --color-5: oklch(68% 0.20 42);    /* laranja puro    */
+  --speed: 2s;
+}
+
+@keyframes rainbow {
+  0%   { background-position: 0%;   }
+  100% { background-position: 200%; }
+}
+
+.rainbow-btn {
+  /* Layout */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+
+  /* Size — mantém mesmas dimensões do .cta-btn original */
+  padding: 16px 40px;
+  border-radius: 2px;
+
+  /* Tipografia */
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--text-main);
+
+  /* ── Efeito Magic UI: 3 camadas de background ────────────────
+     Camada 1 (padding-box): preenchimento escuro sólido
+     Camada 2 (border-box) : fade que suaviza a borda inferior
+     Camada 3 (border-box) : gradiente rainbow animado
+     A borda "transparente" deixa a Camada 3 aparecer nas bordas  */
+  border: 0.125rem solid transparent;
+  background:
+    linear-gradient(#121213, #121213),
+    linear-gradient(#121213 50%, rgba(18, 18, 19, 0.6) 80%, rgba(18, 18, 19, 0)),
+    linear-gradient(
+      90deg,
+      var(--color-1),
+      var(--color-5),
+      var(--color-3),
+      var(--color-4),
+      var(--color-2)
+    );
+  background-size: 200%;
+  background-clip: padding-box, border-box, border-box;
+  background-origin: border-box;
+
+  /* Animação do gradiente (desloca background-position de 0% → 200%) */
+  animation: rainbow var(--speed, 2s) infinite linear;
+
+  /* Misc */
+  outline: none;
+  cursor: pointer;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+/* Glow abaixo do botão — exatamente como no Magic UI */
+.rainbow-btn::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  z-index: 0;
+  height: 20%;
+  width: 60%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    var(--color-1),
+    var(--color-5),
+    var(--color-3),
+    var(--color-4),
+    var(--color-2)
+  );
+  background-size: 200%;
+  animation: rainbow var(--speed, 2s) infinite linear;
+  filter: blur(0.75rem);
+}

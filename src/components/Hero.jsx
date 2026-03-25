@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import Magnet from './Magnet';
+import RainbowButton from './RainbowButton';
 
 const isMobile =
   typeof window !== 'undefined' &&
@@ -92,10 +93,10 @@ export default function Hero() {
       <div className="hero-content" ref={contentRef} id="hero-content">
         <h1 ref={h1Ref}>O FUTURO É<br /><span ref={spanRef}>IMPRESSO</span></h1>
         <p ref={pRef}>
-          Design editorial e precisão técnica. Peças únicas criadas sob demanda para o seu espaço.
+          Sua ideia ganha forma com nossas impressões, feitas com precisão, tecnologia e atenção total<br></br>a cada projeto.
         </p>
         <Magnet padding={300} magnetStrength={7}>
-          <a href="#produtos" className="cta-btn" ref={ctaRef}>Explorar Coleção</a>
+          <RainbowButton href="#produtos" ref={ctaRef}>VEJA MAIS</RainbowButton>
         </Magnet>
       </div>
     </section>

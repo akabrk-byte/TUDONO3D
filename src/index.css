@@ -253,29 +253,71 @@ header.shrunk {
 
 /* ── MARQUEE ── */
 .marquee-wrapper {
-    background-color: rgba(4, 4, 10, 0.75);
+    background-color: rgba(4, 4, 10, 0.82);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255,74,0,0.12);
-    border-bottom: 1px solid rgba(255,74,0,0.12);
-    color: #FFFFFF;
-    padding: 16px 0;
+    border-top: 1px solid rgba(255,74,0,0.30);
+    border-bottom: 1px solid rgba(255,74,0,0.30);
+    padding: 22px 0;
     overflow: hidden;
     display: flex;
     white-space: nowrap;
+    /* Fade nas bordas */
+    -webkit-mask: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    mask: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
 }
 .marquee {
     display: flex;
-    animation: marquee 20s linear infinite;
+    align-items: center;
+    animation: marquee 30s linear infinite;
 }
 .marquee-wrapper:hover .marquee { animation-play-state: paused; }
-.marquee span {
+
+/* Fonte base para todas as spans do marquee */
+.marquee-wrapper .cursor-target,
+.marquee-wrapper .marquee-word,
+.marquee-wrapper .marquee-accent {
     font-family: var(--font-title);
-    font-size: 1.5rem;
-    letter-spacing: 2px;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    letter-spacing: 7px;
 }
+
+/* Reset do cursor-target (o estilo vem dos filhos agora) */
+.marquee-wrapper .cursor-target {
+    color: inherit;
+    -webkit-text-stroke: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0;
+}
+
+/* "TUDO NO" — igual ao 3D */
+.marquee-word {
+    color: var(--accent);
+    -webkit-text-stroke: 0;
+    filter: drop-shadow(0 0 10px rgba(255, 74, 0, 0.65));
+}
+
+/* "3D" — sólido laranja com glow */
+.marquee-accent {
+    color: var(--accent);
+    -webkit-text-stroke: 0;
+    filter: drop-shadow(0 0 10px rgba(255, 74, 0, 0.65));
+}
+
+/* Separador ◆ */
+.marquee-sep {
+    font-family: var(--font-title);
+    font-size: clamp(0.65rem, 1vw, 0.8rem);
+    color: rgba(255, 74, 0, 0.45);
+    padding: 0 36px;
+    letter-spacing: 0;
+    position: relative;
+    top: -2px;
+}
+
 @keyframes marquee {
-    0% { transform: translateX(0); }
+    0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
 

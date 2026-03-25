@@ -2,8 +2,13 @@ export default function Marquee() {
   const buildContent = (prefix) => {
     const items = [];
     for (let i = 0; i < 9; i++) {
-      items.push(<span key={`${prefix}-${i}`} className="cursor-target">TUDO NO 3D</span>);
-      items.push(' · ');
+      items.push(
+        <span key={`${prefix}-${i}`} className="cursor-target">
+          <span className="marquee-word">TUDO NO </span>
+          <span className="marquee-accent">3D</span>
+        </span>
+      );
+      items.push(<span key={`${prefix}-sep-${i}`} className="marquee-sep">◆</span>);
     }
     return items;
   };
