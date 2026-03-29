@@ -7,6 +7,7 @@ const CONFIG = isMobile ? {
   blobs:       2,
   orbs:        5,
   particles:   16,
+  stars:       90,
   gridSize:    55,
   gridOpacity: 0.03,
   mouseInfl:   0,
@@ -15,6 +16,7 @@ const CONFIG = isMobile ? {
   blobs:       4,
   orbs:        14,
   particles:   48,
+  stars:       220,
   gridSize:    55,
   gridOpacity: 0.04,
   mouseInfl:   0.10,
@@ -207,7 +209,37 @@ export default function BgCanvas() {
       });
     }
 
-    function initAll() { initBlobs(); initOrbs(); initParticles(); }
+    /* ── STAR FIELD ── */
+    const stars = [];
+    function initStars() {
+      stars.length = 0;
+      for (let i = 0; i < CONFIG.stars; i++) {
+        const big = Math.random() > 0.88;
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          size:     big ? Math.random() * 0.8 + 0.7 : Math.random() * 0.5 + 0.15,
+          alpha:    big ? Math.random() * 0.30 + 0.12 : Math.random() * 0.18 + 0.06,
+          cool:     Math.random() > 0.78,
+          phase:    Math.random() * Math.PI * 2,
+          phaseSpd: 0.003 + Math.random() * 0.007,
+        });
+      }
+    }
+    function drawStars() {
+      stars.forEach(s => {
+        s.phase += s.phaseSpd;
+        const a = s.alpha * (0.55 + 0.45 * Math.sin(s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = s.cool
+          ? `rgba(210,228,255,${a})`
+          : `rgba(255,255,255,${a})`;
+        ctx.fill();
+      });
+    }
+
+    function initAll() { initBlobs(); initOrbs(); initParticles(); initStars(); }
 
     function resize() {
       W = canvas.width  = window.innerWidth;
@@ -220,6 +252,7 @@ export default function BgCanvas() {
       mouseY += (targetY - mouseY) * .04;
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, W, H);
+      drawStars();
       drawBlobs();
       drawGrid();
       drawParticles();
