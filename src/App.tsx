@@ -7,6 +7,7 @@ import Products from './components/Products';
 import Editorial from './components/Editorial';
 import HowItWorks from './components/HowItWorks';
 import Impact from './components/Impact';
+import VideoFrame from './components/VideoFrame';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 import GhostCursorWrapper from './GhostCursorWrapper';
@@ -81,6 +82,7 @@ export default function App() {
         <Editorial />
         <HowItWorks />
         <Impact />
+        <VideoFrame />
       </main>
       <Footer />
       <Cart
