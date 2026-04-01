@@ -21,13 +21,20 @@ export default function VideoFrame() {
 
   const [playing, setPlaying] = useState(true);
   const [timeStr, setTimeStr] = useState('0:00');
+  const [inView, setInView]   = useState(false);
 
-  // ── reveal on scroll ─────────────────────────────────────────────────────
+  // ── reveal + lazy-load iframes quando a seção entra na viewport ───────────
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) section.classList.add('vf-visible'); },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          section.classList.add('vf-visible');
+          setInView(true);
+          obs.disconnect();
+        }
+      },
       { threshold: 0.1 }
     );
     obs.observe(section);
@@ -204,7 +211,7 @@ export default function VideoFrame() {
                   <div className="vf-vnum">01</div>
                   <iframe
                     ref={iframe1Ref}
-                    src={VIMEO_SRC_1}
+                    src={inView ? VIMEO_SRC_1 : undefined}
                     frameBorder="0"
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
@@ -219,7 +226,7 @@ export default function VideoFrame() {
                   <div className="vf-vnum">02</div>
                   <iframe
                     ref={iframe2Ref}
-                    src={VIMEO_SRC_2}
+                    src={inView ? VIMEO_SRC_2 : undefined}
                     frameBorder="0"
                     allow="autoplay; fullscreen; picture-in-picture"
                     allowFullScreen
