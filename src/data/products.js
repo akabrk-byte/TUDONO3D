@@ -6,6 +6,8 @@ export const products = [
     name: "CAPA DE ISQUEIRO BIC COLORIDA",
     price: 29.90,
     category: "Capas de Isqueiro",
+    customizable: true,
+    dimensions: { A: '9.8 cm', L: '2.8 cm', P: '1.6 cm' },
     images: [
       `${BASE}%20com%20isqueiro%201.jpg`,
       `${BASE}%20com%20isqueiro%202.jpg`,
@@ -99,6 +101,7 @@ export const products = [
     name: "MÃO GUARDA KIT",
     price: 65.00,
     category: "Suportes",
+    dimensions: { A: '14.0 cm', L: '13.5 cm', P: '7.0 cm' },
     images: [
       "/images/MAO%20GUARDA%20KIT/mao%20guarda%20kit%201.jpg",
       "/images/MAO%20GUARDA%20KIT/mao%20guarda%20kit%202.jpg",
@@ -110,6 +113,7 @@ export const products = [
     name: "GUARDA PITEIRAS",
     price: 35.00,
     category: "Suportes",
+    dimensions: { A: '8.5 cm', L: '6.0 cm', P: '6.0 cm' },
     images: [
       "/images/GUARDA%20PITEIRAS/guarda%20piteiras%201.jpg",
       "/images/GUARDA%20PITEIRAS/guarda%20piteiras%202.jpg",

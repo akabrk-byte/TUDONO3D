@@ -8,10 +8,68 @@ function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+/* ── Upload Zone ─────────────────────────────────────────────────────────── */
+function UploadZone({ value, onChange }) {
+  const inputRef = useRef(null);
+  const [drag, setDrag] = useState(false);
+
+  const handleFile = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const url = URL.createObjectURL(file);
+    onChange({ file, url, name: file.name });
+  };
+
+  const onDrop = (e) => {
+    e.preventDefault();
+    setDrag(false);
+    handleFile(e.dataTransfer.files[0]);
+  };
+
+  return (
+    <div
+      className={`upload-zone${drag ? ' drag-over' : ''}${value ? ' has-file' : ''}`}
+      onClick={() => inputRef.current?.click()}
+      onDragOver={(e) => { e.preventDefault(); setDrag(true); }}
+      onDragLeave={() => setDrag(false)}
+      onDrop={onDrop}
+    >
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={(e) => handleFile(e.target.files[0])}
+      />
+      {value ? (
+        <div className="upload-preview">
+          <img src={value.url} alt="Preview" />
+          <div className="upload-preview-info">
+            <span className="upload-ok">✓ Imagem selecionada</span>
+            <span className="upload-filename">{value.name}</span>
+            <span className="upload-change">Clique para trocar</span>
+          </div>
+        </div>
+      ) : (
+        <div className="upload-empty">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <span>Arraste ou clique para enviar</span>
+          <span className="upload-hint">PNG, JPG, WEBP</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Lightbox ────────────────────────────────────────────────────────────── */
 function Lightbox({ product, initialIndex, displayImages: initialImages, selectedColor: initialColor, onClose, onAddToCart }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [displayImages, setDisplayImages] = useState(initialImages);
   const [selectedColor, setSelectedColor] = useState(initialColor);
+  const [customImage, setCustomImage] = useState(null);
 
   useEffect(() => {
     const handler = (e) => {
@@ -56,6 +114,12 @@ function Lightbox({ product, initialIndex, displayImages: initialImages, selecte
   const prev = () => setCurrentIndex(i => (i - 1 + displayImages.length) % displayImages.length);
   const next = () => setCurrentIndex(i => (i + 1) % displayImages.length);
 
+  const handleAdd = () => {
+    if (product.customizable && !customImage) return;
+    onAddToCart({ ...product, selectedColor, images: displayImages, customImage });
+    onClose();
+  };
+
   return createPortal(
     <div className="lightbox-overlay" onClick={onClose}>
       <div className="lightbox-modal" onClick={e => e.stopPropagation()}>
@@ -88,6 +152,17 @@ function Lightbox({ product, initialIndex, displayImages: initialImages, selecte
           {selectedColor && <span className="lightbox-color-tag">{selectedColor}</span>}
           <p className="lightbox-price">{formatPrice(product.price)}</p>
 
+          {product.dimensions && (
+            <div className="lightbox-dims">
+              {Object.entries(product.dimensions).map(([label, value]) => (
+                <div key={label} className="lightbox-dim-item">
+                  <span className="lightbox-dim-label">{label}</span>
+                  <span className="lightbox-dim-value">{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {product.colors && (
             <div className="lightbox-colors-section">
               <p className="lightbox-colors-label">CORES DISPONÍVEIS</p>
@@ -106,14 +181,25 @@ function Lightbox({ product, initialIndex, displayImages: initialImages, selecte
             </div>
           )}
 
+          {product.customizable && (
+            <div className="lightbox-custom-section">
+              <p className="lightbox-colors-label">SUA PERSONALIZAÇÃO</p>
+              {product.description && (
+                <p className="lightbox-custom-desc">{product.description}</p>
+              )}
+              <UploadZone value={customImage} onChange={setCustomImage} />
+            </div>
+          )}
+
           <div className="lightbox-counter">{currentIndex + 1} / {displayImages.length}</div>
 
           <button
             type="button"
-            className="lightbox-add-btn"
-            onClick={() => { onAddToCart({ ...product, selectedColor, images: displayImages }); onClose(); }}
+            className={`lightbox-add-btn${product.customizable && !customImage ? ' disabled' : ''}`}
+            onClick={handleAdd}
+            disabled={product.customizable && !customImage}
           >
-            ADICIONAR AO CARRINHO
+            {product.customizable && !customImage ? 'ENVIE SUA IMAGEM PARA CONTINUAR' : 'ADICIONAR AO CARRINHO'}
           </button>
         </div>
       </div>
@@ -122,6 +208,7 @@ function Lightbox({ product, initialIndex, displayImages: initialImages, selecte
   );
 }
 
+/* ── ProductCard ─────────────────────────────────────────────────────────── */
 function ProductCard({ product, onAddToCart, onOpenLightbox }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -227,11 +314,20 @@ function ProductCard({ product, onAddToCart, onOpenLightbox }) {
             <h3>{product.name}</h3>
             {selectedColor && <span className="selected-color-label">{selectedColor}</span>}
             <p>{formatPrice(product.price)}</p>
+            {product.customizable && (
+              <span
+                className="custom-hint"
+                onClick={e => { e.stopPropagation(); onOpenLightbox({ product, imageIndex, displayImages, selectedColor }); }}
+              >
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Personalizar com sua arte
+              </span>
+            )}
           </div>
           <button
             type="button"
             className="add-btn"
-            onClick={() => onAddToCart({ ...product, selectedColor, images: displayImages })}
+            onClick={e => { e.stopPropagation(); onAddToCart({ ...product, selectedColor, images: displayImages }); }}
             aria-label={`Adicionar ${product.name}`}
           >
             +
@@ -242,6 +338,7 @@ function ProductCard({ product, onAddToCart, onOpenLightbox }) {
   );
 }
 
+/* ── Products Section ────────────────────────────────────────────────────── */
 export default function Products({ onAddToCart }) {
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [lightbox, setLightbox] = useState(null);
