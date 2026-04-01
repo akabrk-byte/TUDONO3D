@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import './VideoFrame.css';
 
-const VIMEO_SRC_1 = `https://player.vimeo.com/video/1179092868?autoplay=1&muted=1&loop=1&background=1&quality=auto`;
-const VIMEO_SRC_2 = `https://player.vimeo.com/video/1179092890?autoplay=1&muted=1&loop=1&background=1&quality=auto`;
-
-function vimeoMsg(method) {
-  return JSON.stringify({ method });
-}
+const VIDEO_SRC_1 = '/video1.mp4';
+const VIDEO_SRC_2 = '/video2.mp4';
 
 export default function VideoFrame() {
   const wrapRef    = useRef(null);
@@ -21,21 +17,14 @@ export default function VideoFrame() {
 
   const [playing, setPlaying] = useState(true);
   const [timeStr, setTimeStr] = useState('0:00');
-  const [inView, setInView]   = useState(false);
 
-  // ── reveal + lazy-load iframes quando a seção entra na viewport ───────────
+  // ── reveal on scroll ─────────────────────────────────────────────────────
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
     const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          section.classList.add('vf-visible');
-          setInView(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.1 }
+      ([entry]) => { if (entry.isIntersecting) { section.classList.add('vf-visible'); obs.disconnect(); } },
+      { threshold: 0.05 }
     );
     obs.observe(section);
     return () => obs.disconnect();
@@ -168,12 +157,10 @@ export default function VideoFrame() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // ── play / pause via Vimeo postMessage API ────────────────────────────────
+  // ── play / pause ──────────────────────────────────────────────────────────
   const togglePlay = () => {
-    const frames = [iframe1Ref.current, iframe2Ref.current].filter(Boolean);
-    const method = playing ? 'pause' : 'play';
-    frames.forEach(f => {
-      f.contentWindow?.postMessage(vimeoMsg(method), 'https://player.vimeo.com');
+    [iframe1Ref.current, iframe2Ref.current].filter(Boolean).forEach(v => {
+      playing ? v.pause() : v.play();
     });
     setPlaying(p => !p);
   };
@@ -209,14 +196,7 @@ export default function VideoFrame() {
                   <div className="vf-ov-t" /><div className="vf-ov-b" />
                   <div className="vf-ov-l" /><div className="vf-ov-r" />
                   <div className="vf-vnum">01</div>
-                  <iframe
-                    ref={iframe1Ref}
-                    src={inView ? VIMEO_SRC_1 : undefined}
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title="Tudo no 3D – vídeo 1"
-                  />
+                  <video ref={iframe1Ref} src={VIDEO_SRC_1} autoPlay muted loop playsInline />
                 </div>
 
                 {/* célula 2 — direita */}
@@ -224,14 +204,7 @@ export default function VideoFrame() {
                   <div className="vf-ov-t" /><div className="vf-ov-b" />
                   <div className="vf-ov-l" /><div className="vf-ov-r" />
                   <div className="vf-vnum">02</div>
-                  <iframe
-                    ref={iframe2Ref}
-                    src={inView ? VIMEO_SRC_2 : undefined}
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title="Tudo no 3D – vídeo 2"
-                  />
+                  <video ref={iframe2Ref} src={VIDEO_SRC_2} autoPlay muted loop playsInline />
                 </div>
 
                 <div className="vf-mlight" ref={mlRef} />
